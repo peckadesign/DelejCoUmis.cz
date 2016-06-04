@@ -10,13 +10,17 @@ php:
 
 application:
 	errorPresenter: Error
+	scanDirs: off
 	mapping:
-		*: App\*Module\Presenters\*Presenter
-
+		*: DelejCoUmis\*Module\Presenters\*Presenter
 
 session:
 	expiration: 14 days
 
 
 services:
-	router: App\RouterFactory::createRouter
+	router: DelejCoUmis\Routers\RouterFactory::createRouter
+
+	- DelejCoUmis\Controls\Contact\IContactControlFactory
+	- DelejCoUmis\Emails\ContactEmailFactory
+	- DelejCoUmis\Controls\FlashMessages\IFlashMessagesControlFactory

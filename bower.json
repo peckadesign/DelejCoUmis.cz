@@ -1,0 +1,8 @@
+{
+	"name": "delejcoumis.cz",
+	"private": true,
+	"dependencies": {
+		"jquery": "1.10.*",
+		"respond": "1.4.*"
+	}
+}
