@@ -13,6 +13,15 @@
 	# prevents files starting with dot to be viewed by browser
 	RewriteRule /\.|^\.(?!well-known/) - [F]
 
+	RewriteCond %{HTTP_HOST} ^delej-co-umis.cz$
+	RewriteRule (.*) http://www.delejcoumis.cz/$1 [R=301,QSA,L]
+
+	RewriteCond %{HTTP_HOST} ^www.delej-co-umis.cz$
+	RewriteRule (.*) http://www.delejcoumis.cz/$1 [R=301,QSA,L]
+
+	RewriteCond %{HTTP_HOST} ^delejcoumis.cz$
+	RewriteRule (.*) http://www.delejcoumis.cz/$1 [R=301,QSA,L]
+
 	# front controller
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d

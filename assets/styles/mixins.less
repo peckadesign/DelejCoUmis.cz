@@ -1,0 +1,180 @@
+// IMG help class
+.center-img { position:absolute; top:0; left:0; right:0; bottom:0; margin:auto; }
+.responsive-img { max-width:100%; max-height:100%; width:auto; height:auto; }
+.stretch-img { width:100% !important; max-height:none !important; }
+
+// GRADIENT
+.linear-gradient(@dir: top; @start-color: #eee; @end-color: #aaa) {
+	.linear-gradient-multi(@dir; ~'@{start-color} 0%, @{end-color} 100%'; mix(@start-color, @end-color));
+}
+.linear-gradient-multi(@dir: top; @gradient; @fallback:#e5e5e5;) {
+	@left: right;
+	@right: left;
+	@top: bottom;
+	@bottom: top;
+
+	background-color:@fallback;
+	background-image: -webkit-linear-gradient(@dir, @gradient);
+	background-image: -moz-linear-gradient(@dir, @gradient);
+	background-image: -o-linear-gradient(@dir, @gradient);
+	background-image: linear-gradient(to @@dir, @gradient);
+}
+
+/// PREFIX HELL
+.transition (...) {
+	-webkit-transition:@arguments;
+	-moz-transition:@arguments;
+	-o-transition:@arguments;
+	transition:@arguments;
+}
+.transition-delay (...) {
+	-webkit-transition-delay:@arguments;
+	-moz-transition-delay:@arguments;
+	-o-transition-delay:@arguments;
+	transition-delay:@arguments;
+}
+
+.transition-transform (...) {
+	-webkit-transition: -webkit-transform @arguments;
+	-moz-transition: -moz-transform @arguments;
+	-ms-transition: -ms-transform @arguments;
+	-o-transition: -o-transform @arguments;
+	transition: transform @arguments;
+}
+
+.transform(...) {
+	-webkit-transform:@arguments;
+	-moz-transform:@arguments;
+	-ms-transform:@arguments;
+	-o-transform:@arguments;
+	transform:@arguments;
+}
+.transform-origin(@x:0%; @y:0%) {
+	-webkit-transform-origin:@x @y;
+	-moz-transform-origin:@x @y;
+	-ms-transform-origin:@x @y;
+	-o-transform-origin:@x @y;
+	transform-origin:@x @y;
+}
+
+.box-sizing(@sizing:border-box) {
+	-webkit-box-sizing:@sizing;
+	-moz-box-sizing:@sizing;
+	-ms-box-sizing:@sizing;
+	box-sizing:@sizing;
+}
+
+.animation (...) {
+	-webkit-animation: @arguments;
+	-moz-animation:    @arguments;
+	-ms-animation:     @arguments;
+	-o-animation:      @arguments;
+	animation:         @arguments;
+}
+
+.greyscale {
+	-webkit-filter: grayscale(100%);
+	-moz-filter: grayscale(100%);
+	-ms-filter: grayscale(100%);
+	-o-filter: grayscale(100%);
+	filter: grayscale(100%);
+	filter: gray; /* IE 6-9 */
+}
+
+// CSS SHAPES
+.triangle(top; @w; @h; @color; @bg-color:transparent) {
+	width:0; height:0;
+	border-style:solid;
+	border-width: 0 @w/2 @h @w/2;
+	border-color: @bg-color @bg-color @color @bg-color;
+}
+.triangle(bottom; @w; @h; @color; @bg-color:transparent) {
+	width:0; height:0;
+	border-style:solid;
+	border-width: @h @w/2 0 @w/2;
+	border-color: @color @bg-color @bg-color @bg-color;
+}
+.triangle(left; @w; @h; @color; @bg-color:transparent) {
+	width:0; height:0;
+	border-style:solid;
+	border-width: @h/2 @w @h/2 0;
+	border-color: @bg-color @color @bg-color @bg-color;
+}
+.triangle(right; @w; @h; @color; @bg-color:transparent) {
+	width:0; height:0;
+	border-style:solid;
+	border-width: @h/2 0 @h/2 @w;
+	border-color: @bg-color @bg-color @bg-color @color;
+}
+
+// CSS COLUMNS
+// pořadí prvků po sloupcích
+.column-count(@count:2) {
+	-webkit-column-count:@count;
+	-moz-column-count:@count;
+	column-count:@count;
+}
+.column-gap(@gap:10px) {
+	-webkit-column-gap:@gap;
+	-moz-column-gap:@gap;
+	column-gap:@gap;
+}
+.column-rule(@rule:none) {
+	-webkit-column-rule:@rule;
+	-moz-column-rule:@rule;
+	column-rule:@rule;
+}
+.css-columns(@count:2; @gap: 20px; @rule:0 solid transparent) {
+	.column-count(@count);
+	.column-gap(@gap);
+	.column-rule(@rule);
+
+	/* zabrání zalomení sloupce uvnitř li */
+	li {
+		-webkit-column-break-inside:avoid; /* spec + prefixes */
+		-moz-column-break-inside:avoid;
+		column-break-inside:avoid;
+
+		break-inside: avoid-column; /* spec, IE 11 */
+		page-break-inside:avoid; /* FF */
+	}
+}
+.css-columns(@count:2; @gap: 20px; @rule:0 solid transparent) when (@count = 1) {
+	// při nestejné výšce v IE se float může rozbít! Řešení např. srovnání výšek přes js
+	.ie8 &, .ie9 & {
+		margin-right:0; overflow:visible;
+
+		li { float:none; width:auto; padding-right:0; border-left:0; }
+	}
+}
+.css-columns(@count:2; @gap: 20px; @rule:0 solid transparent) when (@count >= 2) {
+	// při nestejné výšce v IE se float může rozbít! Řešení např. srovnání výšek přes js
+	.ie8 &, .ie9 & {
+		.cfx(); margin-right:-@gap; overflow:hidden;
+
+		li {
+			float:left; width:100%/@count; padding-right:@gap; border-left:@rule;
+
+			.box-sizing();
+		}
+	}
+}
+
+// nastaví velikost písma v procentech na požadovanou velikost zadanou v px
+// druhý parametr je velikost písma, vůči které počítám, defaultně velikost písma dokumentu
+.font-size(@fs; @fbs: @font-base-size) {
+	font-size:100% * (@fs / @fbs);
+}
+
+// opacity
+.opacity(@o: .5) {
+	opacity:@o;
+	@oIE:@o*100;
+	filter:~'progid:DXImageTransform.Microsoft.Alpha(Opacity=@{oIE})';
+}
+
+// nastaví barvu odkazů a jejich hover/focus
+.links-color(@c1: @color-link; @c2: @color-link-hover) {
+	a { color:@c1; .transition(~'color 300ms ease'); }
+	a:focus, a:hover { color:@c2; }
+}
