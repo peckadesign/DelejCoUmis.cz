@@ -77,6 +77,8 @@ class ContactControl extends Nette\Application\UI\Control
 			->addRule(Nette\Forms\Form::MIME_TYPE, 'Povoleny jsou soubory PDF.', 'application/pdf')
 		;
 
+		$form->addProtection('Formulář nebyl odeslaný příliš dlouho, odešlete ho prosím znovu');
+
 		$form->addSubmit('submit');
 
 		$form->onSuccess[] = function (Nette\Application\UI\Form $form, array $values) {
